@@ -1,0 +1,10 @@
+[Bb]in*/
+[Oo]bj*/
+[Oo]utput*/
+*.bat
+*.cmd
+*.suo
+*.tar
+*.zip
+*.7z
+*.user
