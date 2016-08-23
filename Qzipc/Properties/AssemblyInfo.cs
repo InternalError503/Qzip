@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Qzip (Windows .net based simple archive utility)")]
+[assembly: AssemblyTitle("QuickZip (Windows .net based simple archive utility)")]
 [assembly: AssemblyDescription("Windows .net  based simple archive utility.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("8pecxstudios")]
-[assembly: AssemblyProduct("Qzip")]
+[assembly: AssemblyProduct("QuickZip")]
 [assembly: AssemblyCopyright("Copyright ©  2012-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

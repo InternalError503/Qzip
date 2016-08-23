@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Qzip (Windows .net based simple archive utility)")>
+<Assembly: AssemblyTitle("QuickZip (Windows .net based simple archive utility)")>
 <Assembly: AssemblyDescription("Windows .net  based simple archive utility.")>
 <Assembly: AssemblyCompany("8pecxstudios")>
-<Assembly: AssemblyProduct("Qzip")>
+<Assembly: AssemblyProduct("QuickZip")>
 <Assembly: AssemblyCopyright("Copyright ©  2012-2016")>
 <Assembly: AssemblyTrademark("8pecxstudios")>
 
