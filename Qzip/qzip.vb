@@ -182,6 +182,7 @@ Module qzip
 
                                        If (Not String.IsNullOrEmpty(_EntryFileName)) Then
                                            _Entry.ExtractToFile(_EntryFullName, True)
+                                          Console.WriteLine(string.Format("Extracting: {0}", _EntryFullName)) 'Show feedback
                                        End If
                                    End Sub)
 
