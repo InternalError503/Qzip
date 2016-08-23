@@ -118,6 +118,14 @@ Module qzip
     Private Async Function Compress(ByVal _Directory As String, ByVal _Output As String, Optional _Compression As CompressionLevel = 2) As Task
 
         Try
+
+            'Check directory again.
+            If Not Directory.Exists(_DirectoryPath) Then
+                InvalidArguments("Were sorry <-invalid arguments passed-> | path to folder or path to file not valid!") 'Just output sorry.
+                Environment.ExitCode = 1
+                Environment.Exit(1)
+            End If
+
             'Add file extension if not added.
             If Not _Output.Contains(".zip") Then
                 _Output = _Output & ".zip"
