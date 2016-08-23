@@ -26,6 +26,9 @@ Module qzip
 
         Try
 
+            'Set window title
+            Console.Title = "QuickZip"
+
             'If no arguments passed shutdown.
             If sArgs.Length = 0 Then
                 InvalidArguments("Were sorry <-no arguments passed-> this application requires valid arguments!") 'Just output sorry.
