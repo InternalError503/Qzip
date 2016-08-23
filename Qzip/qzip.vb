@@ -197,11 +197,7 @@ Module qzip
 
     End Function
 
-    Private Sub InvalidArguments(Optional _Message As String = Nothing)
-
-        If IsNothing(_Message) Then
-            _Message = ""
-        End If
+    Private Sub InvalidArguments(Optional _Message As String = "")
 
         Console.WriteLine(Environment.NewLine &
                 "Designed and developed by 8pecxstudios 2012-2016" & Environment.NewLine & Environment.NewLine &
