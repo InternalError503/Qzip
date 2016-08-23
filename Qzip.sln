@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Qzip", "Qzip\Qzip.vbproj", "{E9CD496B-BEF5-45CA-A3AE-23FD1D755783}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qzipc", "Qzipc\Qzipc.csproj", "{4BA01C3A-19E4-4372-A061-349284492D30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E9CD496B-BEF5-45CA-A3AE-23FD1D755783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9CD496B-BEF5-45CA-A3AE-23FD1D755783}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9CD496B-BEF5-45CA-A3AE-23FD1D755783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BA01C3A-19E4-4372-A061-349284492D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BA01C3A-19E4-4372-A061-349284492D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BA01C3A-19E4-4372-A061-349284492D30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BA01C3A-19E4-4372-A061-349284492D30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
