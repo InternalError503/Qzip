@@ -42,3 +42,9 @@ For items marked with __*__ are required template parameters all parameters must
 Create archive from a directory: `Qzip.exe --d=somefolder --o=somefolder.zip --best --b`
 
 Extract archive to a directory: `Qzip.exe --d=somefolder.zip --o=somefolder --X`
+
+
+##### To-Do: (Highly Optional Ideas)
+- Add type of overwrite settings, i.e overwrite files only if newer or never overwrite.
+- Currently we delete the archive an make a new one everytime, Need an option to just update the existing.
+- Maybe have compressing feedback, Improve extracting feedback.
