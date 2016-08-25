@@ -25,6 +25,17 @@ namespace Qzip
         private static bool _UseCompression = false;
         private static int _CompressionLevel = 2;
 
+        private static string OverwriteModeArgument = "--M";
+        private static int _OverwriteMode = 2;
+
+        // Create an overwrite method we can enumerate through
+        public enum OverwriteMethod
+        {
+            Never,      // 0
+            IfNewer,    // 1
+            Always      // 2
+        }
+
         static void Main(string[] args)
         {
             try
@@ -60,7 +71,22 @@ namespace Qzip
                             _IsExtractArchive = true;
                         }
 
-                        if (!_IsExtractArchive)
+                        if (_IsExtractArchive)
+                        {
+
+                            if (mArgs.ToLower().StartsWith(OverwriteModeArgument.ToLower()))
+                            {
+                                _OverwriteMode = Convert.ToInt32(mArgs.Remove(0, OverwriteModeArgument.Length));
+                                // If argument given but without value just use always
+                                if (string.IsNullOrEmpty(Convert.ToString(_OverwriteMode)))
+                                {
+                                    _OverwriteMode = 2;
+                                }
+                            }
+
+                        }
+
+                            if (!_IsExtractArchive)
                         {
 
                             if (mArgs.ToLower().StartsWith(IncludeBaseDirectoryArgument.ToLower()))
@@ -107,6 +133,7 @@ namespace Qzip
                         {
                             switch (_CompressionLevel)
                             {
+
                                 case 0:
                                     Compress(_DirectoryPath, _OutputPath, CompressionLevel.Optimal);
                                     break;
@@ -126,13 +153,28 @@ namespace Qzip
 
                     if (_IsExtractArchive)
                     {
-                        Extract(_DirectoryPath, _OutputPath);
+                        switch (_OverwriteMode)
+                        {
+
+                            case 0:
+                                Extract(_DirectoryPath, _OutputPath, OverwriteMethod.Never);
+                                break;
+
+                            case 1:
+                                Extract(_DirectoryPath, _OutputPath, OverwriteMethod.IfNewer);
+                                break;
+                            case 2:
+                                Extract(_DirectoryPath, _OutputPath, OverwriteMethod.Always);
+                                break;
+
+                        }
+
                     }
 
                 }
 
 
-        }
+            }
             catch (Exception This)
             {
                 Console.WriteLine(This.StackTrace);
@@ -140,7 +182,7 @@ namespace Qzip
                 Environment.Exit(1);
             }
 
-}
+        }
 
         static void Compress(string _Directory, string _Output, CompressionLevel _Compression)
         {
@@ -167,7 +209,7 @@ namespace Qzip
                 }
 
                 ZipFile.CreateFromDirectory(_Directory, _Output, _Compression, _IncludeBaseDirectory);
-  
+
             }
             catch (Exception This)
             {
@@ -177,7 +219,7 @@ namespace Qzip
             }
         }
 
-        static void Extract(string _Directory, string _Output)
+        static void Extract(string _Directory, string _Output, OverwriteMethod _OverwriteMode)
         {
             try
             {
@@ -215,7 +257,35 @@ namespace Qzip
 
                         if (!string.IsNullOrEmpty(_EntryFileName))
                         {
-                            _Entry.ExtractToFile(_EntryFullName, true);
+
+                            switch (_OverwriteMode)
+                            {
+
+                                case OverwriteMethod.Never:
+
+                                    if (!File.Exists(_EntryFullName))
+                                    {
+                                        _Entry.ExtractToFile(_EntryFullName);
+                                    }
+
+                                    break;
+
+                                case OverwriteMethod.IfNewer:
+
+                                    if (!File.Exists(_EntryFullName) || File.GetLastWriteTime(_EntryFullName) < _Entry.LastWriteTime)
+                                    {
+                                        _Entry.ExtractToFile(_EntryFullName, true);
+                                    }
+
+                                    break;
+
+                                case OverwriteMethod.Always:
+
+                                    _Entry.ExtractToFile(_EntryFullName, true);
+
+                                    break;
+
+                            }
                             Console.WriteLine(string.Format("Extracting: {0}", _EntryFullName)); // Show feedback
                         }
 
@@ -223,7 +293,7 @@ namespace Qzip
 
                 }
 
-        }
+            }
 
 
             catch (Exception This)
@@ -232,7 +302,7 @@ namespace Qzip
                 Environment.ExitCode = 1;
                 Environment.Exit(1);
             }
-}
+        }
 
         static void InvalidArguments(string _Message = "")
         {
@@ -244,6 +314,7 @@ namespace Qzip
             "--D *Path to the folder you want the archive from." + Environment.NewLine +
             "--O *Path to output the generated archive. (.zip automatically added)" + Environment.NewLine +
             "--X Extracts a archive when used with --D and --O" + Environment.NewLine +
+            "--M (0 = Never overwrite, 1 = Overwrite only if newer, 2 = Always overwrite [Default])" + Environment.NewLine +
             "--B Include base folder directory." + Environment.NewLine +
             "--Best Optimal possible compression level." + Environment.NewLine +
             "--Fast Fastest possible compression level." + Environment.NewLine +
@@ -254,6 +325,7 @@ namespace Qzip
             "--Best [Optional]" + Environment.NewLine +
             "--Fast [Optional]" + Environment.NewLine +
             "--Store [Optional]" + Environment.NewLine +
+            "--M(N) [Optional] --M0, --M1 or --M2" + Environment.NewLine +
             Environment.NewLine +
             "For items marked with * are required template parameters all parameters must be set." + Environment.NewLine + Environment.NewLine +
             "For more information on tools see the command-line reference in the online help.";

@@ -22,6 +22,16 @@ Module qzip
     Dim _UseCompression As Boolean = False
     Dim _CompressionLevel As Integer = 2
 
+    Dim OverwriteModeArgument As String = "--M"
+    Dim _OverwriteMode As Integer = 2
+
+    'Create an overwrite method we can enumerate through
+    Public Enum OverwriteMethod
+        Never      ' 0
+        IfNewer    ' 1
+        Always     ' 2
+    End Enum
+
     Sub Main(ByVal sArgs() As String)
 
         Try
@@ -48,6 +58,18 @@ Module qzip
 
                     If mArgs.ToLower.StartsWith(ExtractArgument.ToLower) Then
                         _IsExtractArchive = True
+                    End If
+
+                    If _IsExtractArchive Then
+
+                        If mArgs.ToLower().StartsWith(OverwriteModeArgument.ToLower()) Then
+                            _OverwriteMode = Convert.ToInt32(mArgs.Remove(0, OverwriteModeArgument.Length))
+                            'If argument given but without value just use always
+                            If String.IsNullOrEmpty(Convert.ToString(_OverwriteMode)) Then
+                                _OverwriteMode = 2
+                            End If
+                        End If
+
                     End If
 
                     'Skip these if extracting
@@ -98,6 +120,7 @@ Module qzip
                             Case 2
                                 Compress(_DirectoryPath, _OutputPath, CompressionLevel.NoCompression).Wait()
                         End Select
+
                     Else
                         Compress(_DirectoryPath, _OutputPath).Wait()
                     End If
@@ -105,7 +128,16 @@ Module qzip
                 End If
 
                 If _IsExtractArchive Then
-                    Extract(_DirectoryPath, _OutputPath).Wait()
+
+                    Select Case _OverwriteMode
+                        Case 0
+                            Extract(_DirectoryPath, _OutputPath, OverwriteMethod.Never).Wait()
+                        Case 1
+                            Extract(_DirectoryPath, _OutputPath, OverwriteMethod.IfNewer).Wait()
+                        Case 2
+                            Extract(_DirectoryPath, _OutputPath, OverwriteMethod.Always).Wait()
+                    End Select
+
                 End If
 
             End If
@@ -151,7 +183,7 @@ Module qzip
 
     End Function
 
-    Private Async Function Extract(ByVal _Directory As String, ByVal _Output As String) As Task
+    Private Async Function Extract(ByVal _Directory As String, ByVal _Output As String, ByVal _OverwriteMode As OverwriteMethod) As Task
 
         Try
 
@@ -184,8 +216,20 @@ Module qzip
                                        Dim _EntryFileName = Path.GetFileName(_EntryFullName)
 
                                        If (Not String.IsNullOrEmpty(_EntryFileName)) Then
-                                           _Entry.ExtractToFile(_EntryFullName, True)
-                                          Console.WriteLine(string.Format("Extracting: {0}", _EntryFullName)) 'Show feedback
+
+                                           Select Case _OverwriteMode
+                                               Case OverwriteMethod.Never
+                                                   If Not File.Exists(_EntryFullName) Then
+                                                       _Entry.ExtractToFile(_EntryFullName)
+                                                   End If
+                                               Case OverwriteMethod.IfNewer
+                                                   If Not File.Exists(_EntryFullName) Or File.GetLastWriteTime(_EntryFullName) < _Entry.LastWriteTime Then
+                                                       _Entry.ExtractToFile(_EntryFullName, True)
+                                                   End If
+                                               Case OverwriteMethod.Always
+                                                   _Entry.ExtractToFile(_EntryFullName, True)
+                                           End Select
+                                           Console.WriteLine(String.Format("Extracting: {0}", _EntryFullName)) 'Show feedback
                                        End If
                                    End Sub)
 
@@ -210,6 +254,7 @@ Module qzip
                 "--D *Path to the folder you want the archive from." & Environment.NewLine &
                 "--O *Path to output the generated archive. (.zip automatically added)" & Environment.NewLine &
                 "--X Extracts a archive when used with --D and --O" & Environment.NewLine &
+                "--M (0 = Never overwrite, 1 = Overwrite only if newer, 2 = Always overwrite [Default])" & Environment.NewLine &
                 "--B Include base folder directory." & Environment.NewLine &
                 "--Best Optimal possible compression level." & Environment.NewLine &
                 "--Fast Fastest possible compression level." & Environment.NewLine &
@@ -220,6 +265,7 @@ Module qzip
                 "--Best [Optional]" & Environment.NewLine &
                 "--Fast [Optional]" & Environment.NewLine &
                 "--Store [Optional]" & Environment.NewLine &
+                "--M(N) [Optional] --M0, --M1 or --M2" & Environment.NewLine &
                 Environment.NewLine &
                 "For items marked with * are required template parameters all parameters must be set." & Environment.NewLine & Environment.NewLine &
                 "For more information on tools see the command-line reference in the online help.")
