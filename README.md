@@ -24,6 +24,7 @@ Source code released under [MPL 2.0](https://www.mozilla.org/MPL/2.0/)
 | --O | `*`Path to output the generated archive. (*.zip automatically added)|
 | --X | Extracts a archive when used with `--D` and `--O`|
 | --M | (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite _[Default]_)|
+| --F | Force overwrite mode 2 (Always Overrite)|
 | --B | Include base folder directory. (When building archives)|
 | --Best | Optimal possible compression level.|
 | --Fast | Fastest possible compression level.|
@@ -36,6 +37,7 @@ Source code released under [MPL 2.0](https://www.mozilla.org/MPL/2.0/)
 | --Fast | True |
 | --Store | True |
 | --M(N) | True |
+| --F | True |
 
 | Command | Use |
 |:----------:|-------------|
@@ -43,6 +45,16 @@ Source code released under [MPL 2.0](https://www.mozilla.org/MPL/2.0/)
 | --M0 | Never overwrite |
 | --M1 | Overwrite only if newer |
 | --M2 | Always overwrite |
+
+By default extracting prompts for user input (Use `--F` to skip):
+| Command | Use |
+|:----------:|-------------|
+| Input | Yes (Y) \ No (N) \ All (A) |
+| Y | Confirms overwrite |
+| N | Skips current file |
+| A | Always overwrite all files |
+| Exit | Will terminate program |
+
 
 For items marked with __*__ are required template parameters all parameters must be set.
 
@@ -55,7 +67,7 @@ Extract archive to a directory: `Qzip.exe --d=somefolder.zip --o=somefolder --X 
 
 ##### To-Do: (Highly Optional Ideas)
 - ~~Add type of overwrite settings, i.e overwrite files only if newer or never overwrite.~~
-- Add type of comfirmation on overwrite that can be forced by an argument to skip user input.
+- ~~Add type of comfirmation on overwrite that can be forced by an argument to skip user input.~~
 - Currently we delete the archive an make a new one everytime, Need an option to just update the existing.
 - Maybe have compressing feedback, Improve extracting feedback.
 - Maybe add better command line aguments then current.

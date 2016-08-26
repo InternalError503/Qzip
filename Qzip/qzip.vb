@@ -23,7 +23,9 @@ Module qzip
     Dim _CompressionLevel As Integer = 2
 
     Dim OverwriteModeArgument As String = "--M"
+    Dim ForceOverwriteModeArgument As String = "--F"
     Dim _OverwriteMode As Integer = 2
+    Dim _ForceOverwriteMode As Boolean = False
 
     'Create an overwrite method we can enumerate through
     Public Enum OverwriteMethod
@@ -70,10 +72,14 @@ Module qzip
                             End If
                         End If
 
+                        If mArgs.ToLower().StartsWith(ForceOverwriteModeArgument.ToLower()) Then
+                            _ForceOverwriteMode = True
+                        End If
+
                     End If
 
-                    'Skip these if extracting
-                    If Not _IsExtractArchive Then
+                        'Skip these if extracting
+                        If Not _IsExtractArchive Then
 
                         If mArgs.ToLower.StartsWith(IncludeBaseDirectoryArgument.ToLower) Then
                             _IncludeBaseDirectory = True
@@ -217,6 +223,8 @@ Module qzip
 
                                        If (Not String.IsNullOrEmpty(_EntryFileName)) Then
 
+                                           Dim _ShowConsoleOutput As Boolean = True
+
                                            Select Case _OverwriteMode
                                                Case OverwriteMethod.Never
                                                    If Not File.Exists(_EntryFullName) Then
@@ -227,9 +235,45 @@ Module qzip
                                                        _Entry.ExtractToFile(_EntryFullName, True)
                                                    End If
                                                Case OverwriteMethod.Always
-                                                   _Entry.ExtractToFile(_EntryFullName, True)
+
+                                                   If _ForceOverwriteMode Then
+                                                       _Entry.ExtractToFile(_EntryFullName, True)
+                                                   Else
+
+                                                       Dim _StillRunning As Boolean = True
+
+                                                       While _StillRunning
+
+                                                           SendMessageToConsole(String.Format("Do you want to overwrite {0}: Yes (Y) | No (N) | All (A)", Path.GetFileName(_EntryFullName)))
+                                                           Dim _UserInput As String = Console.ReadLine().ToLower
+
+                                                           Select Case _UserInput
+                                                               Case "y"
+                                                                   _Entry.ExtractToFile(_EntryFullName, True)
+                                                                   _StillRunning = False
+                                                               Case "n" 'Skip file
+                                                                   _ShowConsoleOutput = False
+                                                                   _StillRunning = False
+                                                               Case "a"
+                                                                   _ForceOverwriteMode = True
+                                                                   _Entry.ExtractToFile(_EntryFullName, True)
+                                                                   _StillRunning = False
+                                                               Case "exit" 'Just exit
+                                                                   _ForceOverwriteMode = True
+                                                                   Environment.ExitCode = 2
+                                                                   Environment.Exit(2)
+                                                               Case Else
+                                                                   _ShowConsoleOutput = False
+                                                                   SendMessageToConsole("[Invalid Option] -- Valid options are: Yes (Y) | No (N)| All (A) --")
+                                                           End Select
+                                                       End While
+
+                                                   End If
+
                                            End Select
-                                           Console.WriteLine(String.Format("Extracting: {0}", _EntryFullName)) 'Show feedback
+                                           If _ShowConsoleOutput Then
+                                               SendMessageToConsole(String.Format("Extracting: {0}", _EntryFullName)) 'Show feedback
+                                           End If
                                        End If
                                    End Sub)
 
@@ -245,6 +289,10 @@ Module qzip
 
     End Function
 
+    Private Sub SendMessageToConsole(ByVal _Message As String)
+        Console.WriteLine(_Message.Replace("\", "/"))
+    End Sub
+
     Private Sub InvalidArguments(Optional _Message As String = "")
 
         Console.WriteLine(Environment.NewLine &
@@ -255,6 +303,7 @@ Module qzip
                 "--O *Path to output the generated archive. (.zip automatically added)" & Environment.NewLine &
                 "--X Extracts a archive when used with --D and --O" & Environment.NewLine &
                 "--M (0 = Never overwrite, 1 = Overwrite only if newer, 2 = Always overwrite [Default])" & Environment.NewLine &
+                "--F Force overwrite mode 2 (Always overrite)" & Environment.NewLine &
                 "--B Include base folder directory." & Environment.NewLine &
                 "--Best Optimal possible compression level." & Environment.NewLine &
                 "--Fast Fastest possible compression level." & Environment.NewLine &
@@ -266,6 +315,7 @@ Module qzip
                 "--Fast [Optional]" & Environment.NewLine &
                 "--Store [Optional]" & Environment.NewLine &
                 "--M(N) [Optional] --M0, --M1 or --M2" & Environment.NewLine &
+                "--F [Optional]" & Environment.NewLine &
                 Environment.NewLine &
                 "For items marked with * are required template parameters all parameters must be set." & Environment.NewLine & Environment.NewLine &
                 "For more information on tools see the command-line reference in the online help.")
