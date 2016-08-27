@@ -7,26 +7,24 @@ namespace Qzip
     class Program
     {
 
-        private static string DirectoryPathArgument = "--D=";
+        private static string DirectoryPathArgument = "-D=";
         private static string _DirectoryPath = null;
 
-        private static string OutputPathArgument = "--O=";
+        private static string OutputPathArgument = "-O=";
         private static string _OutputPath = null;
 
-        private static string ExtractArgument = "--X";
+        private static string ExtractArgument = "-X";
         private static bool _IsExtractArchive = false;
 
-        private static string IncludeBaseDirectoryArgument = "--B";
+        private static string IncludeBaseDirectoryArgument = "-B";
         private static bool _IncludeBaseDirectory = false;
 
-        private static string CompressionLevelArgumentOptimal = "--Best";
-        private static string CompressionLevelArgumentFastest = "--Fast";
-        private static string CompressionLevelArgumentNoCompression = "--Store";
+        private static string CompressionLevelArgument = "-C";
         private static bool _UseCompression = false;
         private static int _CompressionLevel = 2;
 
-        private static string OverwriteModeArgument = "--M";
-        private static string ForceOverwriteModeArgument = "--F";
+        private static string OverwriteModeArgument = "-M";
+        private static string ForceOverwriteModeArgument = "-F";
         private static int _OverwriteMode = 2;
         private static bool _ForceOverwriteMode = false;
 
@@ -101,22 +99,15 @@ namespace Qzip
                                 _IncludeBaseDirectory = true;
                             }
 
-                            if (mArgs.ToLower().StartsWith(CompressionLevelArgumentOptimal.ToLower()))
+                            if (mArgs.ToLower().StartsWith(CompressionLevelArgument.ToLower()))
                             {
+                                _CompressionLevel = Convert.ToInt32(mArgs.Remove(0, CompressionLevelArgument.Length));
+                                // If argument given but without value just use always
+                                if (string.IsNullOrEmpty(Convert.ToString(_CompressionLevel)))
+                                {
+                                    _CompressionLevel = 2;
+                                }
                                 _UseCompression = true;
-                                _CompressionLevel = 0;
-                            }
-
-                            if (mArgs.ToLower().StartsWith(CompressionLevelArgumentFastest.ToLower()))
-                            {
-                                _UseCompression = true;
-                                _CompressionLevel = 1;
-                            }
-
-                            if (mArgs.ToLower().StartsWith(CompressionLevelArgumentNoCompression.ToLower()))
-                            {
-                                _UseCompression = true;
-                                _CompressionLevel = 2;
                             }
 
                         }
@@ -377,23 +368,18 @@ namespace Qzip
             "Designed and developed by 8pecxstudios 2012-2016" + Environment.NewLine + Environment.NewLine +
             _Message + Environment.NewLine + Environment.NewLine +
             "For more information on a specific commands, See below" + Environment.NewLine + Environment.NewLine +
-            "--D *Path to the folder you want the archive from." + Environment.NewLine +
-            "--O *Path to output the generated archive. (.zip automatically added)" + Environment.NewLine +
-            "--X Extracts a archive when used with --D and --O" + Environment.NewLine +
-            "--M (0 = Never overwrite, 1 = Overwrite only if newer, 2 = Always overwrite [Default])" + Environment.NewLine +
-            "--F Force overwrite mode 2 (Always overrite)" + Environment.NewLine +
-            "--B Include base folder directory." + Environment.NewLine +
-            "--Best Optimal possible compression level." + Environment.NewLine +
-            "--Fast Fastest possible compression level." + Environment.NewLine +
-            "--Store No compression." + Environment.NewLine +
-            Environment.NewLine +
-            "--D and --O must be specified." + Environment.NewLine +
-            "--B [Optional]" + Environment.NewLine +
-            "--Best [Optional]" + Environment.NewLine +
-            "--Fast [Optional]" + Environment.NewLine +
-            "--Store [Optional]" + Environment.NewLine +
-            "--M(N) [Optional] --M0, --M1 or --M2" + Environment.NewLine +
-            "--F [Optional]" + Environment.NewLine +
+            "-D *Path of the folder you want the archive from, `*`Path of archive you want to extract from." + Environment.NewLine +
+            "-O *Path to output generated archive (*.zip automatically added), `*`Path to output archive contents." + Environment.NewLine +
+            "-X Extracts a archive when used with -D and -O" + Environment.NewLine +
+            "-M(N) (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite [Default])" + Environment.NewLine +
+            "-F Force overwrite mode 2 (Always Overrite)" + Environment.NewLine +
+            "-B Include base folder directory." + Environment.NewLine +
+            "-C(N) (`0` = Optimal possible compression, `1` = Fastest possible compression, `2` = No compression [Default])" + Environment.NewLine +
+            "-D and -O must be specified." + Environment.NewLine +
+            "-B [Optional]" + Environment.NewLine +
+            "-C(N) [Optional] -C0, -C1, -C2" + Environment.NewLine +
+            "-M(N) [Optional] -M0, -M1, -M2" + Environment.NewLine +
+            "-F [Optional]" + Environment.NewLine +
             Environment.NewLine +
             "For items marked with * are required template parameters all parameters must be set." + Environment.NewLine + Environment.NewLine +
             "For more information on tools see the command-line reference in the online help.";

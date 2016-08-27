@@ -20,33 +20,44 @@ Source code released under [MPL 2.0](https://www.mozilla.org/MPL/2.0/)
 
 | Command | Result |
 |:----------:|-------------|
-| --D | `*`Path to the folder you want the archive from.|
-| --O | `*`Path to output the generated archive. (*.zip automatically added)|
-| --X | Extracts a archive when used with `--D` and `--O`|
-| --M | (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite _[Default]_)|
-| --F | Force overwrite mode 2 (Always Overrite)|
-| --B | Include base folder directory. (When building archives)|
-| --Best | Optimal possible compression level.|
-| --Fast | Fastest possible compression level.|
-| --Store | No compression.|
+| -D | `*`Path of the folder you want the archive from, `*`Path of archive you want to extract from.|
+| -O | `*`Path to output generated archive (*.zip automatically added), `*`Path to output archive contents.|
+| -X | Extracts a archive when used with `-D` and `-O`|
+| -M(N) | (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite _[Default]_)|
+| -F | Force overwrite mode 2 (Always Overrite)|
+| -B | Include base folder directory. (When building archives)|
+| -C(N) | (`0` = Optimal possible compression, `1` = Fastest possible compression, `2` = No compression _[Default]_)|
+
+##### Optional Arguments:
 
 | Command | Optional |
 |:----------:|-------------|
-| --B | True |
-| --Best | True |
-| --Fast | True |
-| --Store | True |
-| --M(N) | True |
-| --F | True |
+| -B | True |
+| -C(N) | True |
+| -M(N) | True |
+| -F | True |
+
+##### Argument `-C(N)`:
 
 | Command | Use |
 |:----------:|-------------|
-| --M(N) | Number 0-2 |
-| --M0 | Never overwrite |
-| --M1 | Overwrite only if newer |
-| --M2 | Always overwrite |
+| -C(N) | Number 0-2 |
+| -C0 | Optimal possible compression |
+| -C1 | Fastest possible compression |
+| -C2 | No compression |
 
-By default extracting prompts for user input (Use `--F` to skip):
+##### Argument `-M(N)`:
+
+| Command | Use |
+|:----------:|-------------|
+| -M(N) | Number 0-2 |
+| -M0 | Never overwrite |
+| -M1 | Overwrite only if newer |
+| -M2 | Always overwrite |
+
+##### Argument Extract Overrite:
+
+By default extracting prompts for user input (Use `-F` to skip):
 | Command | Use |
 |:----------:|-------------|
 | Input | Yes (Y) \ No (N) \ All (A) |
@@ -60,9 +71,9 @@ For items marked with __*__ are required template parameters all parameters must
 
 #### Usage example:
 
-Create archive from a directory: `Qzip.exe --d=somefolder --o=somefolder.zip --best --b`
+Create archive from a directory: `Qzip.exe -d=somefolder -o=somefolder.zip -c1 -b`
 
-Extract archive to a directory: `Qzip.exe --d=somefolder.zip --o=somefolder --X --M1`
+Extract archive to a directory: `Qzip.exe -d=somefolder.zip --o=somefolder -x -m1`
 
 
 ##### To-Do: (Highly Optional Ideas)
@@ -70,4 +81,4 @@ Extract archive to a directory: `Qzip.exe --d=somefolder.zip --o=somefolder --X 
 - ~~Add type of comfirmation on overwrite that can be forced by an argument to skip user input.~~
 - Currently we delete the archive and make a new one every time, Need an option to just update the existing.
 - Maybe have compressing feedback, Improve extracting feedback.
-- Maybe add better command line aguments then current.
+- ~~Maybe add better command line aguments then current.~~
