@@ -195,13 +195,13 @@ Module qzip
 
             'Check for valid file extension
             If Not _Directory.Contains(".zip") Then
-                Console.WriteLine("Were sorry the file not a valid archive, Only [*.zip] is supported!") 'Just output sorry.
+                SendMessageToConsole("Were sorry the file not a valid archive, Only [*.zip] is supported!") 'Just output sorry.
                 Environment.ExitCode = 1
                 Environment.Exit(1)
             End If
 
             If Not File.Exists(_Directory) Then
-                Console.WriteLine("Were sorry, No file was found, Please check your path and try again!") 'Just output sorry.
+                SendMessageToConsole("Were sorry, No file was found, Please check your path and try again!") 'Just output sorry.
                 Environment.ExitCode = 1
                 Environment.Exit(1)
                 Exit Function
@@ -295,7 +295,7 @@ Module qzip
 
     Private Sub InvalidArguments(Optional _Message As String = "")
 
-        Console.WriteLine(Environment.NewLine &
+        dim _SetMessage As string = Environment.NewLine &
                 "Designed and developed by 8pecxstudios 2012-2016" & Environment.NewLine & Environment.NewLine &
                 _Message & Environment.NewLine & Environment.NewLine &
                 "For more information on a specific commands, See below" & Environment.NewLine & Environment.NewLine &
@@ -318,7 +318,9 @@ Module qzip
                 "--F [Optional]" & Environment.NewLine &
                 Environment.NewLine &
                 "For items marked with * are required template parameters all parameters must be set." & Environment.NewLine & Environment.NewLine &
-                "For more information on tools see the command-line reference in the online help.")
+                "For more information on tools see the command-line reference in the online help."
+
+        SendMessageToConsole(_SetMessage)
 
     End Sub
 

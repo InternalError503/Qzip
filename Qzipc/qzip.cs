@@ -236,14 +236,14 @@ namespace Qzip
                 // Add file extension if not added
                 if (!_Directory.Contains(".zip"))
                 {
-                    Console.WriteLine("Were sorry the file not a valid archive, Only [*.zip] is supported!"); // Just output sorry.
+                    SendMessageToConsole("Were sorry the file not a valid archive, Only [*.zip] is supported!"); // Just output sorry.
                     Environment.ExitCode = 1;
                     Environment.Exit(1);
                 }
 
                 if (!File.Exists(_Directory))
                 {
-                    Console.WriteLine("Were sorry, No file was found, Please check your path and try again!"); // Just output sorry.
+                    SendMessageToConsole("Were sorry, No file was found, Please check your path and try again!"); // Just output sorry.
                     Environment.ExitCode = 1;
                     Environment.Exit(1);
                 }
@@ -398,7 +398,7 @@ namespace Qzip
             "For items marked with * are required template parameters all parameters must be set." + Environment.NewLine + Environment.NewLine +
             "For more information on tools see the command-line reference in the online help.";
 
-            Console.WriteLine(_SetMessage);
+            SendMessageToConsole(_SetMessage);
 
         }
 
