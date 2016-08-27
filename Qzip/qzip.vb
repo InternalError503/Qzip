@@ -287,27 +287,26 @@ Module qzip
 
     Private Sub InvalidArguments(Optional _Message As String = "")
 
-        Dim _SetMessage As String = Environment.NewLine &
-                "Designed and developed by 8pecxstudios 2012-2016" & Environment.NewLine & Environment.NewLine &
-                _Message & Environment.NewLine & Environment.NewLine &
-                "For more information on a specific commands, See below" & Environment.NewLine & Environment.NewLine &
-                "-D *Path of the folder you want the archive from, `*`Path of archive you want to extract from." & Environment.NewLine &
-                "-O *Path to output generated archive (*.zip automatically added), `*`Path to output archive contents." & Environment.NewLine &
-                "-X Extracts a archive when used with -D and -O" & Environment.NewLine &
-                "-M(N) (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite [Default])" & Environment.NewLine &
-                "-F Force overwrite mode 2 (Always Overrite)" & Environment.NewLine &
-                "-B Include base folder directory." & Environment.NewLine &
-                "-C(N) (`0` = Optimal possible compression, `1` = Fastest possible compression, `2` = No compression [Default])" & Environment.NewLine &
-                "-D and -O must be specified." & Environment.NewLine &
-                "-B [Optional]" & Environment.NewLine &
-                "-C(N) [Optional] -C0, -C1, -C2" & Environment.NewLine &
-                "-M(N) [Optional] -M0, -M1, -M2" & Environment.NewLine &
-                "-F [Optional]" & Environment.NewLine &
-                Environment.NewLine &
-                "For items marked with * are required template parameters all parameters must be set." & Environment.NewLine & Environment.NewLine &
+        Dim _SetMessage As String =
+                "\nDesigned and developed by 8pecxstudios 2012-2016\n\n" &
+                _Message & "\n\n" &
+                "For more information on a specific commands, See below\n\n" &
+                "-D *Path of the folder you want the archive from, `*`Path of archive you want to extract from.\n" &
+                "-O *Path to output generated archive (*.zip automatically added), `*`Path to output archive contents.\n" &
+                "-X Extracts a archive when used with -D and -O\n" &
+                "-M(N) (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite [Default])\n" &
+                "-F Force overwrite mode 2 (Always Overrite)\n" &
+                "-B Include base folder directory.\n" &
+                "-C(N) (`0` = Optimal possible compression, `1` = Fastest possible compression, `2` = No compression [Default])\n" &
+                "-D and -O must be specified.\n" &
+                "-B [Optional]\n" &
+                "-C(N) [Optional] -C0, -C1, -C2\n" &
+                "-M(N) [Optional] -M0, -M1, -M2\n" &
+                "-F [Optional]\n\n" &
+                "For items marked with * are required template parameters all parameters must be set.\n\n" &
                 "For more information on tools see the command-line reference in the online help."
 
-        SendMessageToConsole(_SetMessage)
+        SendMessageToConsole(_SetMessage.Replace("\n", Environment.NewLine))
 
     End Sub
 
