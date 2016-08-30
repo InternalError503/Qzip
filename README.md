@@ -2,7 +2,7 @@ QuickZip
 ========
 
 #### What it does: 
-A simply .net based archive utility that allows fast creation or extractions of `*.zip` archives.
+A simple .net based archive utility that allows fast creation or extractions of `*.zip` archives.
 
 #### Why make it:
 I wanted something fast simple and down to the point without including a 3rd party library or tool like 7zip.
@@ -20,8 +20,8 @@ Source code released under [MPL 2.0](https://www.mozilla.org/MPL/2.0/)
 
 | Command | Result |
 |:----------:|-------------|
-| -D | `*`Path of the folder you want the archive from, `*`Path of archive you want to extract from.|
-| -O | `*`Path to output generated archive (*.zip automatically added), `*`Path to output archive contents.|
+| -D= | `*`Path of the folder you want the archive from, `*`Path of archive you want to extract from.|
+| -O= | `*`Path to output generated archive (*.zip automatically added), `*`Path to output archive contents.|
 | -X | Extracts a archive when used with `-D` and `-O`|
 | -M(N) | (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite _[Default]_)|
 | -F | Force overwrite mode 2 (Always Overrite)|
@@ -58,6 +58,7 @@ Source code released under [MPL 2.0](https://www.mozilla.org/MPL/2.0/)
 ##### Argument Extract Overrite:
 
 By default extracting prompts for user input (Use `-F` to skip):
+
 | Command | Use |
 |:----------:|-------------|
 | Input | Yes (Y) \ No (N) \ All (A) |
