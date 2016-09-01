@@ -368,8 +368,8 @@ namespace Qzip
             "\nDesigned and developed by 8pecxstudios 2012-2016\n\n" +
             _Message + "\n\n" +
             "For more information on a specific commands, See below\n\n"  +
-            "-D *Path of the folder you want the archive from, `*`Path of archive you want to extract from.\n" +
-            "-O *Path to output generated archive (*.zip automatically added), `*`Path to output archive contents.\n" +
+            "-D= *Path of the folder you want the archive from, `*`Path of archive you want to extract from.\n" +
+            "-O= *Path to output generated archive (*.zip automatically added), `*`Path to output archive contents.\n" +
             "-X Extracts a archive when used with -D and -O\n" +
             "-M(N) (`0` = Never overwrite, `1` = Overwrite only if newer, `2` = Always overwrite [Default])\n" +
             "-F Force overwrite mode 2 (Always Overrite)\n" +
